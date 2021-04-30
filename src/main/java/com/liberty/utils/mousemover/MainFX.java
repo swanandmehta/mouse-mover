@@ -30,14 +30,6 @@ public class MainFX extends Application {
 		
 		stop.setDisable(true);
 		
-		exit.setOnAction((event) -> {
-			try {
-				stage.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-		
 		start.setOnAction((event)-> {
 			start.setDisable(true);
 			stop.setDisable(false);
@@ -57,6 +49,18 @@ public class MainFX extends Application {
 			stop.setDisable(true);
 			start.requestFocus();
 			WatchDog.destroy();
+		});
+		
+		exit.setOnAction((event) -> {
+			try {
+				start.setDisable(false);
+				stop.setDisable(true);
+				start.requestFocus();
+				WatchDog.destroy();
+				stage.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		});
 		
 		HBox box = new HBox(10, start, stop, exit);		

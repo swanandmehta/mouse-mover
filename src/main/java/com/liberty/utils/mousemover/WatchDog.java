@@ -13,6 +13,7 @@ import java.awt.Robot;
 public class WatchDog implements Runnable {
 	
 	private static volatile boolean isOpen = true;
+	private static volatile boolean toss = true;
 	private static Thread instance;
 	private final Robot robot;
 	
@@ -26,7 +27,15 @@ public class WatchDog implements Runnable {
 			try {
 				int posX = MouseInfo.getPointerInfo().getLocation().x;
 				int posY = MouseInfo.getPointerInfo().getLocation().y;
-				robot.mouseMove(posX + 1, posY + 1);
+				if(toss) {
+					posX = posX + 1;
+					posY = posY + 1;
+				}else {
+					posX = posX - 1;
+					posY = posY - 1;
+				}
+				toss = !toss;
+				robot.mouseMove(posX, posY);
 				Thread.sleep(1000);				
 			} catch (InterruptedException e) {
 				WatchDog.isOpen = false;
